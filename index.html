@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./styles/main.css">
     <title>QuizJS</title>
 </head>
-<body>
+<body class="body">
     <div class="wrapper">
         <div class="content">
             <header class="content__header">
@@ -24,8 +24,43 @@
                     <span>Simple JavaScript Quiz</span>
                 </div>
             </header>
-            
+            <main class="content__body">
+                <div class="body__quiz">
+                    <div class="quiz__question">
+                        <div id="count">1</div>
+                        <div class="quiz__questrion_column">
+                            <div id="lable">Вопрос:</div>
+                            <div id="question"></div>
+                        </div>
+                    </div>
+                    <form action="#" class="quiz__content">
+                        <div class="quiz__answere">
+                            <input type="radio" id="answere_a" name="answere" value="">
+                            <label for="answere_a">k</label>
+                        </div>
+                        <div class="quiz__answere">
+                            <input type="radio" id="answere_b" name="answere" value="">
+                            <label for="answere_b"></label>
+                        </div>
+                        <div class="quiz__answere">
+                            <input type="radio" id="answere_c" name="answere" value="">
+                            <label for="answere_c"></label>
+                        </div>
+                        <div class="quiz__answere">
+                            <input type="radio" id="answere_d" name="answere" value="">
+                            <label for="answere_d"></label>
+                        </div>
+                        <div class="quiz__submit">
+                            <input id="submit" type="submit" value="Проверить">
+                        </div>
+                    </form>
+                </div>
+                <div class="body__button">
+
+                </div>
+            </main>
         </div>
     </div>
+    <script type='module' src="./js/main.js"></script>
 </body>
 </html>
