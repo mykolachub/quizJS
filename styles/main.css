@@ -24,26 +24,34 @@ body {
 }
 
 .content {
-    max-width: 1024px;
-    width: 100%;
+    max-width: 720px;
+    width: calc(100% - 4rem);
     height: auto;
     border: 1px solid black;
 }
+
+/* header */
 
 .content__header {
     width: 100%;
     height: auto;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .header__content {
-    font-size: 7.4rem;
-    font-weight: 700;
     display: block;
     height: auto;
     width: auto;
     position: relative;
+    /*margin-bottom: 2.5rem;*/
+}
+
+.header__text{
+    font-size: 7.4rem;
+    font-weight: 700;
 }
 
 .header__beta {
@@ -58,4 +66,12 @@ body {
     padding: .125em .25em;
     background-color:rgb(245, 246, 250);
     border-radius: 5px;
+}
+
+.header__subheading{
+    width: 100%;
+    height: auto;
+    font-size: 2rem;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.6);
 }
