@@ -9,19 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = {
         plays: 0, // number of games
         library : lib, // library of questions
-        timer: 2000, // time between questions
+        timer: 1000, // time between questions
+        done: false, // game flag
         form: document.getElementById('form'),
         options: document.querySelectorAll('.quiz__input'),
         count: document.getElementById('count'),
         question: document.getElementById('question'),
     }
 
+
     initQuiz(app);
     app.form.addEventListener('submit', event => {
         event.preventDefault();
         const {library, options, timer} = app;
 
-        if (app.plays < library.length) {
+        if (!app.done) {
             //console.log('submitted');
             let isChecked = false;
             let choice;
@@ -35,10 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // runs if user checked
             if (isChecked) {
                 if (library[app.plays].answer == choice.value) {
                     // correct
-                    choice.parentElement.classList.add('quiz__answere--correct');
+                    choice.parentElement.classList.add('quiz__answere--correct'); // highlights correct one
                 } else {
                     // wrong
                     options.forEach(option => {
@@ -46,14 +49,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             correctIfWrong = option;
                         }
                     });
-                    correctIfWrong.parentElement.classList.add('quiz__answere--correct');
-                    choice.parentElement.classList.add('quiz__answere--wrong');
+                    correctIfWrong.parentElement.classList.add('quiz__answere--correct'); // highlights correct one
+                    choice.parentElement.classList.add('quiz__answere--wrong'); // highlights wrong one
                 }
                 setTimeout(() => {
                     // updates quiz
                     options.forEach(option => option.parentElement.classList.remove('quiz__answere--correct', 'quiz__answere--wrong'));
-                    app.plays++;
-                    initQuiz(app);
+                    if (app.plays == library.length - 1) {
+                        app.done = true;
+                        return;
+                    } else {
+                        app.plays++;
+                        initQuiz(app);
+                    }
                 }, timer);
                 
             } else {
@@ -61,9 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } else {
-            setTimeout(() => {  
-                alert('End!');
-            }, timer);
+            alert('End!');
         }
     })
 });
