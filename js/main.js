@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = {
         plays: 0, // number of games
         library : lib, // library of questions
-        timer: 1500, // time between questions
+        timer: 2000, // time between questions
         form: document.getElementById('form'),
         options: document.querySelectorAll('.quiz__input'),
         count: document.getElementById('count'),
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //console.log('submitted');
             let isChecked = false;
             let choice;
+            let correctIfWrong;
 
             options.forEach(option => {
                 if (option.checked) {
@@ -40,11 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     choice.parentElement.classList.add('quiz__answere--correct');
                 } else {
                     // wrong
+                    options.forEach(option => {
+                        if (library[app.plays].answere == option.value) {
+                            correctIfWrong = option;
+                        }
+                    });
+                    correctIfWrong.parentElement.classList.add('quiz__answere--correct');
                     choice.parentElement.classList.add('quiz__answere--wrong');
                 }
                 setTimeout(() => {
                     // updates quiz
-                    choice.parentElement.classList.remove('quiz__answere--correct', 'quiz__answere--wrong');
+                    options.forEach(option => option.parentElement.classList.remove('quiz__answere--correct', 'quiz__answere--wrong'));
                     app.plays++;
                     initQuiz(app);
                 }, timer);
