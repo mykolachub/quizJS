@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (isChecked) {
-                if (library[app.plays].answere == choice.value) {
+                if (library[app.plays].answer == choice.value) {
                     // correct
                     choice.parentElement.classList.add('quiz__answere--correct');
                 } else {
                     // wrong
                     options.forEach(option => {
-                        if (library[app.plays].answere == option.value) {
+                        if (library[app.plays].answer == option.value) {
                             correctIfWrong = option;
                         }
                     });
