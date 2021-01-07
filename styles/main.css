@@ -179,7 +179,7 @@ body {
     transition: all 250ms ease;
 }
 
-.quiz__answere--corrrect label{
+.quiz__answere--correct label{
     color: rgb(40, 167, 69);
     background-color: rgba(40, 167, 69, 0.1);
     transition: all 250ms ease;
