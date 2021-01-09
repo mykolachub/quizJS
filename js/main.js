@@ -1,89 +1,111 @@
 'use strict';
 
-import { lib } from './library.js';
+import { lib } from './altLib.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('welcum to my console');
 
-    // application settings
-    const app = {
-        plays: 0, // number of games
-        library : lib, // library of questions
-        timer: 1000, // time between questions
-        done: false, // game flag
+    class Quiz{
+        constructor(app){
+            this.plays = 0; // KEY VARIABLE: number of games
+            this.done = false; // game flag
+            this.choice = null; // user's choice
+            this.checked = false; // falg false if user didnt choose an option
+            this.library = app.library; // library of questions
+            this.timer = app.timer; // time between questions
+        }
+
+        initQuiz() {
+            DOM.count.textContent = this.plays + 1;
+            DOM.question.textContent = this.library[this.plays].question;
+            DOM.options.forEach((option, index) => {
+                const label = option.nextElementSibling;
+                const content = this.library[this.plays].options[index];
+                label.textContent = content;
+                option.value = content;
+            });
+        }
+
+        updateQuiz() {
+            if (this.plays == this.library.length - 1) {
+                this.done = true;
+                return;
+            } else {
+                this.nextPlay();
+                this.initQuiz();
+            }
+        }
+
+        isChecked() {
+            this.checked = false; // flag gets reset
+            DOM.options.forEach(option => {
+                if (option.checked) {
+                    this.checked = true;
+                    this.choice = option;
+                    option.checked = false;
+                }
+            });
+            return this.checked;
+        }
+
+        colorizeChoice() {
+            const isCorrect = this.library[this.plays].answer == this.choice.value;
+            if (isCorrect) {
+                this.choice.parentElement.classList.add('quiz__answere--correct');
+            } else {
+                DOM.options.forEach(option => {
+                    if (this.library[this.plays].answer == option.value) {
+                        option.parentElement.classList.add('quiz__answere--correct');
+                    }
+                    this.choice.parentElement.classList.add('quiz__answere--wrong');
+                });
+            }
+        }
+
+        unColorizeAll() {
+            DOM.options.forEach(option => {
+                option.parentElement.classList.remove('quiz__answere--correct', 'quiz__answere--wrong');
+            });
+        }
+
+        nextPlay() {
+            return this.plays++;
+        }
+    }
+
+    // DOM elements
+    const DOM = {
         form: document.getElementById('form'),
         options: document.querySelectorAll('.quiz__input'),
         count: document.getElementById('count'),
         question: document.getElementById('question'),
     }
 
+    // quiz initialization
+    const quiz = new Quiz({
+        library : lib,
+        timer: 1000,
+        elements: DOM,
+    });
 
-    initQuiz(app);
-    app.form.addEventListener('submit', event => {
+    // game initialization
+    quiz.initQuiz();
+    DOM.form.addEventListener('submit', event => {
         event.preventDefault();
-        const {library, options, timer} = app;
-
-        if (!app.done) {
-            //console.log('submitted');
-            let isChecked = false;
-            let choice;
-            let correctIfWrong;
-
-            options.forEach(option => {
-                if (option.checked) {
-                    isChecked = true;
-                    choice = option;
-                    option.checked = false;
-                }
-            });
-
-            // runs if user checked
-            if (isChecked) {
-                if (library[app.plays].answer == choice.value) {
-                    // correct
-                    choice.parentElement.classList.add('quiz__answere--correct'); // highlights correct one
-                } else {
-                    // wrong
-                    options.forEach(option => {
-                        if (library[app.plays].answer == option.value) {
-                            correctIfWrong = option;
-                        }
-                    });
-                    correctIfWrong.parentElement.classList.add('quiz__answere--correct'); // highlights correct one
-                    choice.parentElement.classList.add('quiz__answere--wrong'); // highlights wrong one
-                }
+        if (!quiz.done) {
+            if (quiz.isChecked()) {
+                quiz.colorizeChoice();
                 setTimeout(() => {
-                    // updates quiz
-                    options.forEach(option => option.parentElement.classList.remove('quiz__answere--correct', 'quiz__answere--wrong'));
-                    if (app.plays == library.length - 1) {
-                        app.done = true;
-                        return;
-                    } else {
-                        app.plays++;
-                        initQuiz(app);
-                    }
-                }, timer);
-                
+                    // removes all highlights
+                    quiz.unColorizeAll();
+                    quiz.updateQuiz();   
+                }, quiz.timer);
             } else {
                 alert('Choose an option first!');
-            }
-
+            }            
         } else {
-            alert('End!');
+            alert('End');
+            return;
         }
     })
 });
-
-function initQuiz(app) {
-    const {plays, count, question, options, library} = app;
-
-    count.textContent = plays + 1;
-    question.textContent = library[plays].question;
-    options.forEach((option, index) => {
-        const inputValue = option;
-        const label = option.nextElementSibling;
-        const content = library[plays].options[index];
-        label.textContent = content;
-        inputValue.value = content;
-    });
-}
