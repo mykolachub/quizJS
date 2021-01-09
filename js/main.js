@@ -71,6 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
         nextPlay() {
             return this.plays++;
         }
+
+        resetQuiz() {
+            this.plays = 0;
+            this.done = false;
+            this.choice = null;
+            this.checked = false;
+            this.initQuiz();
+        }
     }
 
     // DOM elements
@@ -107,5 +115,5 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('End');
             return;
         }
-    })
+    });
 });
