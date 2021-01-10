@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return new Promise((resolve, reject) => {
                 getAnswersAndQuestions().then((res) => {
                     this.library = { ...res };
-                    console.log(res.answer);
                     resolve();
                 });
             });
@@ -106,6 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
         count: document.getElementById('count'),
         question: document.getElementById('question'),
         score: document.getElementById('score'),
+        darkMode: document.getElementById('dark_mode'),
+        html: document.getElementById('html'),
     }
 
     // quiz initialization
@@ -128,4 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Choose an option first!');
         }
     });
+
+    DOM.darkMode.addEventListener('click', () => {
+        DOM.html.classList.toggle('darkmode--enabled');
+        if(DOM.html.classList.contains('darkmode--enabled')) {
+            DOM.darkMode.textContent = 'Dark Mode: On';
+        } else {
+            DOM.darkMode.textContent = 'Dark Mode: Off';
+        }
+    })
 });
