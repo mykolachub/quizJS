@@ -3,44 +3,55 @@
 import { getAnswersAndQuestions } from './questions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('welcum to my console');
+    console.log('welcum to my console');      
 
-    let library = {};
-    getAnswersAndQuestions().then((res) => {
-        library = {...res};
-        console.dir({...library});
-    });    
-
-
-    /*class Quiz{
-        constructor(app){
+    class Quiz {
+        constructor() {
             this.plays = 0; // KEY VARIABLE: number of games
             this.done = false; // game flag
             this.choice = null; // user's choice
             this.checked = false; // falg false if user didnt choose an option
-            this.library = app.library; // library of questions
-            this.timer = app.timer; // time between questions
+            this.library = null; // library of questions    
+            this.timer = 1000; // time between questions
         }
 
+        async nextGame() {
+            this.nextPlay();
+            return new Promise((resolve, reject) => {
+                getAnswersAndQuestions().then((res) => {
+                    this.library = { ...res };
+                    console.log(this.library);
+                    resolve();
+                });
+            });
+        }
+
+        nextPlay() {
+            return this.plays++;
+        }
+        
         initQuiz() {
-            DOM.count.textContent = this.plays + 1;
-            DOM.question.textContent = this.library[this.plays].question;
+            DOM.count.textContent = this.plays;
+            DOM.question.textContent = this.library.question;
             DOM.options.forEach((option, index) => {
                 const label = option.nextElementSibling;
-                const content = this.library[this.plays].options[index];
+                const content = this.library.options[index];
                 label.textContent = content;
                 option.value = content;
             });
         }
 
-        updateQuiz() {
-            if (this.plays == this.library.length - 1) {
-                this.done = true;
-                return;
-            } else {
-                this.nextPlay();
-                this.initQuiz();
-            }
+        async updateQuiz() {
+            // if (this.plays == this.library.length - 1) {
+            //     this.done = true;
+            //     return;
+            // } else {
+            //     this.nextPlay();
+            //     this.initQuiz();
+            // }
+            await quiz.nextGame();
+            quiz.initQuiz();
+            console.log('Next Game Started');
         }
 
         isChecked() {
@@ -54,14 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             return this.checked;
         }
-
+        
         colorizeChoice() {
-            const isCorrect = this.library[this.plays].answer == this.choice.value;
+            const isCorrect = this.library.answer == this.choice.value;
             if (isCorrect) {
                 this.choice.parentElement.classList.add('quiz__answere--correct');
             } else {
                 DOM.options.forEach(option => {
-                    if (this.library[this.plays].answer == option.value) {
+                    if (this.library.answer == option.value) {
                         option.parentElement.classList.add('quiz__answere--correct');
                     }
                     this.choice.parentElement.classList.add('quiz__answere--wrong');
@@ -70,22 +81,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         unColorizeAll() {
-            DOM.options.forEach(option => {
-                option.parentElement.classList.remove('quiz__answere--correct', 'quiz__answere--wrong');
-            });
+            setTimeout(() => {
+                DOM.options.forEach(option => {
+                    option.parentElement.classList.remove('quiz__answere--correct', 'quiz__answere--wrong');
+                });
+            }, quiz.timer);
         }
 
-        nextPlay() {
-            return this.plays++;
-        }
-
-        resetQuiz() {
-            this.plays = 0;
-            this.done = false;
-            this.choice = null;
-            this.checked = false;
-            this.initQuiz();
-        }
+        // resetQuiz() {
+        //     this.plays = 0;
+        //     this.done = false;
+        //     this.choice = null;
+        //     this.checked = false;
+        //     this.initQuiz();
+        // }
     }
 
     // DOM elements
@@ -97,30 +106,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // quiz initialization
-    const quiz = new Quiz({
-        library : lib,
-        timer: 1000,
-        elements: DOM,
-    });
+    const quiz = new Quiz();
 
     // game initialization
-    quiz.initQuiz();
-    DOM.form.addEventListener('submit', event => {
+    (async function () {
+        await quiz.nextGame();
+        quiz.initQuiz();
+        //console.log('Quiz Initted');
+    }());
+
+    DOM.form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        if (!quiz.done) {
-            if (quiz.isChecked()) {
-                quiz.colorizeChoice();
-                setTimeout(() => {
-                    // removes all highlights
-                    quiz.unColorizeAll();
-                    quiz.updateQuiz();   
-                }, quiz.timer);
-            } else {
-                alert('Choose an option first!');
-            }            
+
+        if (quiz.isChecked()) {
+            quiz.colorizeChoice();
+            quiz.unColorizeAll();
+            quiz.updateQuiz();
         } else {
-            alert('End');
-            return;
+            alert('Choose an option first!');
         }
-    });*/
+    });
 });
