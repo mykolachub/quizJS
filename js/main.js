@@ -3,7 +3,6 @@
 import { getAnswersAndQuestions } from './questions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('welcum to my console');      
 
     class Quiz {
         constructor() {
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return new Promise((resolve, reject) => {
                 getAnswersAndQuestions().then((res) => {
                     this.library = { ...res };
-                    console.log(this.library);
                     resolve();
                 });
             });
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // }
             await quiz.nextGame();
             quiz.initQuiz();
-            console.log('Next Game Started');
         }
 
         isChecked() {
@@ -112,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
     (async function () {
         await quiz.nextGame();
         quiz.initQuiz();
-        //console.log('Quiz Initted');
     }());
 
     DOM.form.addEventListener('submit', async (event) => {
