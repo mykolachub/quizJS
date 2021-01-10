@@ -27,7 +27,7 @@ body {
     height: auto;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
     padding: 3rem;
     margin-bottom: 15rem;
     position: relative;
@@ -35,7 +35,49 @@ body {
 
 .header__item {}
 
+/* DARK MODE & SCORE */
+
+.header__darkmode,
+.header__score {
+    width: 13rem;
+    height: 6rem;
+}
+
+.darkmode__button,
+.score {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: all 250ms ease;
+}
+
+.darkmode__button:hover {
+    background-color: #f5f6fa;
+}
+
+.score--updated {
+    color: rgb(40, 167, 69);
+    background-color: rgba(40, 167, 69, 0.1);
+    transition: all 250ms ease;
+}
+
 /* LOGO */
+
+.header__logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+}
 
 .logo {
     height: auto;
