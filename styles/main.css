@@ -159,6 +159,7 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    visibility: hidden;
     position: absolute;
     transition: all 250ms ease;
 }
@@ -171,6 +172,7 @@ body {
     cursor: pointer;
     background-color: rgb(245, 246, 250);
     border-radius: 5px;
+    text-transform: capitalize;
 }
 
 .quiz__answere--wrong label{
