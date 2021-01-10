@@ -10,21 +10,33 @@
 </head>
 <body class="body">
     <div class="wrapper">
-        <div class="content">
-            <header class="content__header">
-                <div class="header__content">
-                    <span class="header__text">
-                        QuizJS
-                    </span>
-                    <span class="header__beta">
-                        Beta
-                    </span>
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header__dark_mode header__item">
+
+            </div>
+            <div class="header__logo header__item">
+                <div class="logo">
+                    <div class="logo__content">
+                        <span class="logo__text">
+                            QuizJS
+                        </span>
+                        <span class="logo__beta">
+                            Beta
+                        </span>
+                    </div>
+                    <div class="logo__subheading">
+                        <span>Simple JavaScript Quiz</span>
+                    </div>
                 </div>
-                <div class="header__subheading">
-                    <span>Simple JavaScript Quiz</span>
-                </div>
-            </header>
-            <main class="content__body">
+            </div>
+            <div class="header__score header__item">
+
+            </div>
+        </header>
+        <!-- MAIN -->
+        <main class="content">
+            <div class="content__body">
                 <div class="body__quiz">
                     <div class="quiz__question">
                         <div id="count"></div>
@@ -58,8 +70,8 @@
                 <div class="body__button">
 
                 </div>
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type='module' src="./js/main.js"></script>
