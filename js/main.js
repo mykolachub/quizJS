@@ -1,11 +1,18 @@
 'use strict';
 
-import { lib } from './altLib.js';
+import { getAnswersAndQuestions } from './questions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('welcum to my console');
 
-    class Quiz{
+    let library = {};
+    getAnswersAndQuestions().then((res) => {
+        library = {...res};
+        console.dir({...library});
+    });    
+
+
+    /*class Quiz{
         constructor(app){
             this.plays = 0; // KEY VARIABLE: number of games
             this.done = false; // game flag
@@ -115,5 +122,5 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('End');
             return;
         }
-    });
+    });*/
 });
