@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 export async function getAnswersAndQuestions() {
   let responceObj = {};
   await axios({
