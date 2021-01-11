@@ -1,0 +1,29 @@
+{
+  "name": "quizjs",
+  "version": "1.0.0",
+  "description": "Simple JS Quiz Web App",
+  "main": "js/main.js",
+  "scripts": {
+    "test": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikolaichub/quizJS.git"
+  },
+  "author": "Nikolai Chub",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikolaichub/quizJS/issues"
+  },
+  "homepage": "https://github.com/nikolaichub/quizJS#readme",
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
