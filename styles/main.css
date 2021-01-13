@@ -182,10 +182,58 @@ body {
     height: auto;
 }
 
+/* achieving */
+
+.body__ach {
+    width: 100%;
+    min-height: 3rem;
+    height: auto;
+    margin-bottom: 2rem;
+}
+
+.ach__item {
+    padding: 0.5rem 1rem;
+    border-radius: 2.5rem;
+    font-size: 1.2rem;
+    display: inline-flex;
+    margin-right: 0.25rem;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    transform: translateX(50%);
+    animation: newAch 250ms ease-in-out 100ms 1 normal forwards;
+}
+
+@keyframes newAch {
+    0% {
+        transform: translateX(50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+div[data-achtype="common"] {
+    color: black;
+    background-color: #f5f6fa;
+}
+
+div[data-achtype="loser"] {
+    color: rgb(220, 20, 60);
+    background-color: rgba(220, 20, 60, 0.1);
+}
+
+div[data-achtype="winner"] {
+    color: rgb(40, 167, 69);
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+/* QUIZ */
+
 .body__quiz {
     width: 100%;
     height: auto;
-    padding: 0 2rem;
 }
 
 .quiz__question {
