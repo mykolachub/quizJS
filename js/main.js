@@ -1,5 +1,3 @@
-
-
 import { getAnswersAndQuestions } from './questions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,18 +11,18 @@ document.addEventListener('DOMContentLoaded', () => {
     score: document.getElementById('score'),
     darkMode: document.getElementById('dark_mode'),
     html: document.getElementById('html'),
+    ach: document.getElementById('ach_container'),
   };
 
+  // Quiz
   class Quiz {
     constructor() {
       this.plays = 0; // KEY VARIABLE: number of games
       this.done = false; // game flag
-      this.score = 0; // number of correct answers
       this.choice = null; // user's choice
       this.checked = false; // falg false if user didnt choose an option
       this.library = null; // library of questions
       this.timer = 1000; // time between questions
-      this.scoreTimer = this.timer / 1.25;
     }
 
     async updateQuiz() {
@@ -38,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         getAnswersAndQuestions().then(res => {
           if (res) {
             this.library = { ...res };
+            console.log(res.answer);
             resolve();
           }
         });
@@ -45,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     nextPlay() {
-      return this.plays++;
+      this.plays++;
+      rate.updateGame(this.plays);
     }
 
     initQuiz() {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isCorrect = this.library.answer === this.choice.value;
       if (isCorrect) {
         this.choice.parentElement.classList.add('quiz__answere--correct');
-        this.updateScore();
+        rate.updateScore();
       } else {
         DOM.options.forEach(option => {
           if (this.library.answer === option.value) {
@@ -94,6 +94,81 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }, this.timer);
     }
+  }
+
+  // winRate
+  class WinRate {
+    constructor() {
+      this.games = 1;
+      this.score = 0;
+      this.scoreTimer = 800;
+      this.achs = [];
+      this.points = [];
+    }
+
+    updateGame(number) {
+      this.games = number;
+    }
+
+    updateAch() {
+      // winner
+      if (this.games === 1 && this.score === 1) {
+        this.createAch('Легкий старт', 'winner', 'С первого раза ответить правильно', 100);
+      }
+      if (this.score === this.games && this.score === 5) {
+        this.createAch('Невероятное начало!', 'winner', '5 раз подрят ответить правильно!', 500);
+      }
+      if (this.games === 10 && this.score === 5) {
+        this.createAch('Середнячок', 'winner', 'Половина правильных ответов', 50);
+      }
+      if (this.score === 10) {
+        this.createAch('Дядь, дай 10 копеек', 'winner', '10 правильных ответов', 100);
+      }
+      if (this.score === 20) {
+        this.createAch('Дядь, дай 10 копеек', 'winner', '20 правильных ответов', 200);
+      }
+      if (this.games === 20 && this.score === 10) {
+        this.createAch('Золотая середина', 'winner', 'Половина правильных ответов', 200);
+      }
+
+      // common
+      if (this.games === 5) {
+        this.createAch('Дай пять!', 'common', 'Сыграть 10 вопросов', 10);
+      }
+      if (this.games === 20) {
+        this.createAch('Настырный', 'common', 'Сыграть 20 вопросов', 50);
+      }
+      if (this.games === 30) {
+        this.createAch('Займись уже делом', 'common', 'Сыграть 30 вопросов', 100);
+      }
+      if (this.achs.length === 5) {
+        this.createAch('Достижений мало не бывает..', 'common', 'Получить 5 достижений', 100);
+      }
+
+      // loser
+      if (this.games === 5 && this.score === 0) {
+        this.createAch('Неудача за неудачей', 'loser', '5 раз подрят ответить неправильно!', 0);
+      }
+      if (this.games === 10 && this.score === 0) {
+        this.createAch('Иди читай книги', 'loser', '10 раз подрят ответить неправильно!', -10);
+      }
+      if (this.games === 15 && this.score === 0) {
+        this.createAch('Дурак стыда не знает..', 'loser', '15 раз подрят ответить неправильно!', -15);
+      }
+
+    }
+
+    createAch(label, type, info, points) {
+      const newAch = document.createElement('div');
+      newAch.textContent = label;
+      newAch.classList.add('ach__item');
+      newAch.setAttribute('data-achtype', type);
+      newAch.setAttribute('data-achinfo', info);
+
+      DOM.ach.appendChild(newAch);
+      this.achs.push(label);
+      this.points.push(points);
+    }
 
     updateScore() {
       DOM.score.parentElement.classList.add('score--updated');
@@ -103,17 +178,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }, this.scoreTimer);
     }
 
-    // resetQuiz() {
-    //     this.plays = 0;
-    //     this.done = false;
-    //     this.choice = null;
-    //     this.checked = false;
-    //     this.initQuiz();
-    // }
   }
 
   // quiz initialization
   const quiz = new Quiz();
+  const rate = new WinRate();
 
   // game initialization
   (async function() {
@@ -126,8 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (quiz.isChecked()) {
       quiz.colorizeChoice();
+      rate.updateAch();
       quiz.unColorizeAll();
       quiz.updateQuiz();
+      console.log(rate.achs);
     } else {
       alert('Choose an option first!');
     }
