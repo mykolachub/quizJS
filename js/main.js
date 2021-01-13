@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           this.choice.parentElement.classList.add('quiz__answere--wrong');
         });
+        rate.updateLoss();
       }
     }
 
@@ -101,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     constructor() {
       this.games = 1;
       this.score = 0;
+      this.loss = 0;
       this.scoreTimer = 800;
       this.achs = [];
       this.points = [];
@@ -127,8 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.score === 20) {
         this.createAch('Дядь, дай 10 копеек', 'winner', '20 правильных ответов', 200);
       }
-      if (this.games === 20 && this.score === 10) {
-        this.createAch('Золотая середина', 'winner', 'Половина правильных ответов', 200);
+      if (this.loss === 5 && this.score === 5) {
+        this.createAch('5+5', 'winner', '5 правильных и неправильных', 50);
+      }
+      if (this.loss === 10 && this.score === 10) {
+        this.createAch('Золотая середина', 'winner', '10 правильных и неправильных', 150);
       }
 
       // common
@@ -141,8 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.games === 30) {
         this.createAch('Займись уже делом', 'common', 'Сыграть 30 вопросов', 100);
       }
+      if (this.games === 40) {
+        this.createAch('Тебе не мало?..', 'common', 'Сыграть 40 вопросов', 100);
+      }
       if (this.achs.length === 5) {
-        this.createAch('Достижений мало не бывает..', 'common', 'Получить 5 достижений', 100);
+        this.createAch('Достижений мало не бывает..', 'common', 'Получить 5 достижений', 200);
+      }
+      if (this.achs.length === 15) {
+        this.createAch('Коллекционер', 'common', 'Получить 15 достижений', 1000);
       }
 
       // loser
@@ -154,6 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (this.games === 15 && this.score === 0) {
         this.createAch('Дурак стыда не знает..', 'loser', '15 раз подрят ответить неправильно!', -15);
+      }
+      if (this.loss === 10) {
+        this.createAch('В следующий раз повезет!', 'loser', '10 неправильных ответов!', 0);
+      }
+      if (this.loss === 20) {
+        this.createAch('Все пальцы проиграл', 'loser', '20 неправильных ответов!', 0);
+      }
+      if (this.loss === 30) {
+        this.createAch('Нет слов одни неудачи..', 'loser', '30 неправильных ответов!', 0);
       }
 
     }
@@ -176,6 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         DOM.score.parentElement.classList.remove('score--updated');
       }, this.scoreTimer);
+    }
+
+    updateLoss() {
+      this.loss++;
     }
 
   }
