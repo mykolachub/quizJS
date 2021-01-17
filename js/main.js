@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         getAnswersAndQuestions().then(res => {
           if (res) {
             this.library = { ...res };
-            console.log(res.answer);
             resolve();
           }
         });
@@ -222,7 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
       rate.updateAch();
       quiz.unColorizeAll();
       quiz.updateQuiz();
-      console.log(rate.achs);
     } else {
       alert('Choose an option first!');
     }
