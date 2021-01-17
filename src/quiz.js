@@ -65,7 +65,7 @@ export class Quiz {
             this.choice.parentElement.classList.add('quiz__answere--correct');
             return true;
         } else {
-            DOM.options.forEach(option => {
+            options.forEach(option => {
                 if (this.library.answer === option.value) {
                     option.parentElement.classList.add('quiz__answere--correct');
                 }
