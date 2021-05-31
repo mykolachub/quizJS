@@ -2,7 +2,6 @@ import { Quiz } from './quiz.js';
 import { WinRate } from './winrate.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-
   // DOM elements
   const form = document.getElementById('form');
   const darkMode = document.getElementById('dark_mode');
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   (async function() {
     await quiz.nextGame();
     quiz.initQuiz();
-  }());
+  })();
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
@@ -37,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // dark mode 
+  // dark mode
   darkMode.addEventListener('click', () => {
     html.classList.toggle('darkmode--enabled');
     if (html.classList.contains('darkmode--enabled')) {

@@ -1,7 +1,6 @@
 import { lib } from './altLib.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-
   // DOM elements
   const DOM = {
     form: document.getElementById('form'),
@@ -69,8 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     unColorizeAll() {
       DOM.options.forEach(option => {
-        option.parentElement.classList
-          .remove('quiz__answere--correct', 'quiz__answere--wrong');
+        option.parentElement.classList.remove(
+          'quiz__answere--correct',
+          'quiz__answere--wrong'
+        );
       });
     }
 
